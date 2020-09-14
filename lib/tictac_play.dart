@@ -37,7 +37,7 @@ class _TicTacPlayState extends State<TicTacPlay> {
       player1 = 'X';
       player2 = second;
     } else if (second == null) {
-      player2 = 'X';
+      player2 = 'O';
       player1 = first;
     } else {
       player1 = first;
@@ -57,6 +57,7 @@ class _TicTacPlayState extends State<TicTacPlay> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.deepOrange,
           title: Text('Tic tac toe'),
         ),
         body: Center(
@@ -68,13 +69,13 @@ class _TicTacPlayState extends State<TicTacPlay> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.blueGrey,
+                        color: Colors.deepOrange,
                       ))
                   : Text('It\'s $player2\'s Turn',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.blueGrey,
+                        color: Colors.deepOrange,
                       )),
               SizedBox(
                 height: 20.0,
