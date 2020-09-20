@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_app/main.dart';
 
+import 'main.dart';
+
 class TicTacPlay extends StatefulWidget {
   TicTacPlay(this.player1, this.player2);
   final player1;
@@ -18,6 +20,7 @@ class _TicTacPlayState extends State<TicTacPlay> {
   String player1;
   String player2;
   bool play = false;
+  bool end = false;
 
   _initMatrix() {
     _matrix = List<List>(3);
@@ -114,12 +117,19 @@ class _TicTacPlayState extends State<TicTacPlay> {
       onTap: () {
         _changeMatrixField(i, j);
         play = !play;
-        print(_matrix.length);
         if (_checkWinner(i, j)) {
           _showDialog(_matrix[i][j]);
+          if (end == true) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => TicTacName()));
+          }
         } else {
           if (_checkDraw()) {
             _showDialog(null);
+            if (end == true) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TicTacName()));
+            }
           }
         }
       },
@@ -139,13 +149,18 @@ class _TicTacPlayState extends State<TicTacPlay> {
 
   _changeMatrixField(int i, int j) {
     setState(() {
-      if (_matrix[i][j] == ' ') {
-        if (_lastChar == 'O')
-          _matrix[i][j] = 'X';
-        else
-          _matrix[i][j] = 'O';
+      if (end == true) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TicTacName()));
+      } else {
+        if (_matrix[i][j] == ' ') {
+          if (_lastChar == 'O')
+            _matrix[i][j] = 'X';
+          else
+            _matrix[i][j] = 'O';
 
-        _lastChar = _matrix[i][j];
+          _lastChar = _matrix[i][j];
+        }
       }
     });
   }
@@ -188,24 +203,26 @@ class _TicTacPlayState extends State<TicTacPlay> {
     }
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Game over'),
-            content: Text(dialogText),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Reset Game'),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TicTacName()));
-                  setState(() {
-                    _initMatrix();
-                  });
-                },
-              )
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        end = true;
+        return AlertDialog(
+          title: Text('Game over'),
+          content: Text(dialogText),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Reset Game'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TicTacName()));
+                setState(() {
+                  _initMatrix();
+                });
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }
